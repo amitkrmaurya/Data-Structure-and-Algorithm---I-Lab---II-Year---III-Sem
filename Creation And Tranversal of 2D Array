@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+int main() {
+    int rows, cols;
+    scanf("%d %d", &rows, &cols);
+
+    int arr[rows][cols];
+    // Read elements
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            scanf("%d", &arr[i][j]);
+        }
+    }
+
+    // Print row-major order with trailing space after each element
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            printf("%d ", arr[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Print column-major order with trailing space after each element
+    for(int j = 0; j < cols; j++) {
+        for(int i = 0; i < rows; i++) {
+            printf("%d ", arr[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
