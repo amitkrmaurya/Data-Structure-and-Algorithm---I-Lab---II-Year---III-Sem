@@ -1,0 +1,55 @@
+#include <stdio.h>
+
+#define SIZE 1000
+
+int main() {
+    int queue[SIZE];
+    int front = -1, rear = -1;
+    int n, op, val;
+
+    scanf("%d", &n);
+
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &op);
+
+        if (op == 1) {
+            // Enqueue
+            scanf("%d", &val);
+            if ((rear + 1) % SIZE == front) {
+                // Queue is full, ignore enqueue (optional)
+                continue;
+            }
+            if (front == -1 && rear == -1) {
+                front = rear = 0;
+            } else {
+                rear = (rear + 1) % SIZE;
+            }
+            queue[rear] = val;
+
+        } else if (op == 2) {
+            // Dequeue
+            if (front == -1) {
+                // Queue is empty, ignore dequeue
+                continue;
+            }
+            if (front == rear) {
+                // Only one element
+                front = rear = -1;
+            } else {
+                front = (front + 1) % SIZE;
+            }
+        }
+    }
+
+    // Print final queue
+    if (front == -1) {
+        printf("Empty\n");
+    } else {
+        int i = front;
+        while (1) {
+            printf("%d", queue[i]);
+            if (i == rear) break;
+            i = (i + 1) % SIZE;
+            printf(" ");
+        }
+        printf("\n");
