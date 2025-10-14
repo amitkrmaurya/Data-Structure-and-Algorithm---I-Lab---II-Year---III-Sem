@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define node structure
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
+};
+
+// Insert at the end
+void insert(struct Node** head, int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+
+    struct Node* temp = *head;
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = newNode;
+    newNode->prev = temp;
+}
+
+// Delete first occurrence of value
+void delete(struct Node** head, int value) {
+    struct Node* temp = *head;
+
+    while (temp != NULL) {
+        if (temp->data == value) {
+            // If node to be deleted is the head
+            if (temp->prev == NULL) {
+                *head = temp->next;
+                if (*head != NULL)
+                    (*head)->prev = NULL;
+            } else {
+                temp->prev->next = temp->next;
+                if (temp->next != NULL)
+                    temp->next->prev = temp->prev;
+            }
+            free(temp);
+            return;
+        }
+        temp = temp->next;
+    }
+    // If not found, do nothing
+}
+
+// Traverse and print list with trailing space
