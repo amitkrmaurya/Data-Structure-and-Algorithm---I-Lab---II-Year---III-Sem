@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Job struct
+typedef struct {
+    int difficulty;
+    int profit;
+} Job;
+
+// Comparison function to sort by difficulty
+int cmp(const void *a, const void *b) {
+    Job *job1 = (Job *)a;
+    Job *job2 = (Job *)b;
+    return job1->difficulty - job2->difficulty;
+}
+
+// Binary search to find max difficulty <= worker ability
+int binarySearch(Job jobs[], int n, int ability) {
+    int low = 0, high = n - 1, result = -1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (jobs[mid].difficulty <= ability) {
+            result = mid;
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return result;
+}
+
+int main() {
+    int n, m;
+    scanf("%d %d", &n, &m);
+
+    Job jobs[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &jobs[i].difficulty);
+    }
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &jobs[i].profit);
+    }
+
+    int workers[m];
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &workers[i]);
+    }
+
+    // Sort jobs by difficulty
+    qsort(jobs, n, sizeof(Job), cmp);
+
+    // Build prefix max profit array
+    for (int i = 1; i < n; i++) {
+        if (jobs[i].profit < jobs[i - 1].profit) {
+            jobs[i].profit = jobs[i - 1].profit;
