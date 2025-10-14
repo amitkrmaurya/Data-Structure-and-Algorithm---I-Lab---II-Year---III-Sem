@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int main() {
+    int rows, cols;
+    scanf("%d %d", &rows, &cols);
+
+    int matrix[rows][cols];
+    int nonZeroCount = 0;
+    int totalElements = rows * cols;
+
+    // Read the matrix and count non-zero elements
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            scanf("%d", &matrix[i][j]);
+            if (matrix[i][j] != 0) {
+                nonZeroCount++;
+            }
+        }
+    }
+
+    // Check for sparse
+    int zeroCount = totalElements - nonZeroCount;
+    if (zeroCount > nonZeroCount) {
+        printf("True\n");
+        // Print sparse representation
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (matrix[i][j] != 0) {
+                    printf("%d %d %d\n", i, j, matrix[i][j]);
+                }
+            }
+        }
+    } else {
+        printf("False\n");
+    }
+
+    return 0;
+}
+
