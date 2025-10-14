@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    double value;
+    double weight;
+    double ratio;
+} Item;
+
+// Comparison function to sort items by value/weight ratio (descending)
+int cmp(const void *a, const void *b) {
+    Item *item1 = (Item *)a;
+    Item *item2 = (Item *)b;
+    if (item2->ratio > item1->ratio) return 1;
+    else if (item2->ratio < item1->ratio) return -1;
+    else return 0;
+}
+
+int main() {
+    int n;
+    double capacity;
+    scanf("%d %lf", &n, &capacity);
+
+    Item items[n];
+    for (int i = 0; i < n; i++) {
+        double val, wt;
+        scanf("%lf %lf", &val, &wt);
+        items[i].value = val;
+        items[i].weight = wt;
+        items[i].ratio = val / wt;
+    }
+
+    // Sort items by ratio
+    qsort(items, n, sizeof(Item), cmp);
+
+    double totalValue = 0.0;
+    double remainingCapacity = capacity;
+
+    for (int i = 0; i < n && remainingCapacity > 0; i++) {
+        if (items[i].weight <= remainingCapacity) {
+            // Take whole item
+            totalValue += items[i].value;
+            remainingCapacity -= items[i].weight;
+        } else {
+            // Take fractional part of item
+            totalValue += items[i].ratio * remainingCapacity;
+            remainingCapacity = 0;
+        }
+    }
+
+    printf("%.6lf\n", totalValue);
+
+    return 0;
+}
+
